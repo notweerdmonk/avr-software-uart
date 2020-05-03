@@ -1,0 +1,46 @@
+#!/bin/bash
+
+projectroot=$(dirname $(dirname $(readlink -f $0)))
+testdir=/tmp/test_$(date +%m_%d_%H_%M)
+
+cp -r $projectroot $testdir
+cd $testdir
+
+#baudrates=(2400 4800 9600 19200 38400 57600 115200)
+baudrates=(2400)
+charsizes=(7 8)
+stopbits=(1 2)
+
+testcount=0
+passcount=0
+
+for baudrate in ${baudrates[@]}; do
+  for charsize in ${charsizes[@]}; do
+    for stopbit in ${stopbits[@]}; do
+      ((testcount++))
+
+      sed -i 's/\(^#define c_UART_BAUD_RATE *\)\([0-9]*\)/\1'"${baudrate}"'/' config.h
+      sed -i 's/\(^#define c_UART_CHAR_SIZE *\)\([0-9]*\)/\1'"${charsize}"'/' config.h
+      sed -i 's/\(^#define c_UART_N_STOP_BITS *\)\([0-9]\)/\1'"${stopbit}"'/' config.h
+
+      echo Starting test \#$testcount with settings:
+      grep -o --color=auto "c_UART_BAUD_RATE\s*[0-9]*" config.h
+      grep -o --color=auto "c_UART_CHAR_SIZE\s*[0-9]*" config.h
+      grep -o --color=auto "c_UART_N_STOP_BITS\s*[0-9]*" config.h
+
+      echo Flashing mcu...
+      make clean 1>/dev/null
+      make flash 1>/dev/null 2>/dev/null
+
+      echo Running test...
+      ./tests/uart_test.elf
+      [ $? -eq 0 ] && ((passcount++))
+
+      echo Test \#$testcount ended
+    done
+  done
+done
+
+echo Summary: $passcount of $testcount tests passed
+
+rm -rf $testdir
