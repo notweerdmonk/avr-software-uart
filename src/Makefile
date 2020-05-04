@@ -21,10 +21,10 @@ endif
 $(OBJECTS): $(SOURCES) $(INCLUDE_HEADERS)
 
 all: $(OBJECTS)
-	avr-ar rc libuart.a uart.o
+	avr-ar rc libuart.a $(OBJECTS)
 
 clean:
-	rm uart.i uart.s -f $(OBJECTS)
+	rm -f uart.i uart.s libuart.a $(OBJECTS)
 
 disasm: $(OBJECTS)	
 	for obj in $^; do avr-objdump -d $obj > $(obj:.o=.lst); done

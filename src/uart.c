@@ -1,4 +1,3 @@
-
 #include <config.h>
 #include <uart.h>
 #include <port.h>
@@ -114,7 +113,7 @@ ISR(port_rx_capture_isr) {
     rx.n = FRAME_SIZE;
     /* sample rx pin again */
     if (rx_pin_state == 0) {
-      port_clear_rx_isr();
+      port_clear_rx_capture_isr();
       port_enable_rx_baud_timer();
       port_disable_rx_capture();
     }
@@ -213,7 +212,7 @@ ISR(port_rx_isr) {
   }
 }
 
-void setup_uart(uint32_t baud_rate) {
+void setup_uart(unsigned long baud_rate) {
   if (baud_rate == 0)
     baud_rate = BAUD_RATE;
   /* tx state */
@@ -235,7 +234,7 @@ void setup_uart(uint32_t baud_rate) {
    *  OCR1A for baud generation
    *  resolution: F_CPU/baud
    */
-  port_setup_baud_timer();
+  port_setup_baud_timer(F_CPU, baud_rate);
   /* rx capture */
   port_setup_rx_capture();
 }
@@ -266,7 +265,7 @@ void send_str(const char *str) {
   (rx_stream.size > 0)
 
 char recv() {
-  while (!rx_stream.size);
+  while (!rx_available());
   char c = *(rx_stream.buffer + rx_stream.out);
   WRAP(rx_stream.out, BUF_SIZE);
   --rx_stream.size;

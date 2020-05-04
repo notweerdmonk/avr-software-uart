@@ -1,16 +1,16 @@
-
 #include <uart.h>
 
 #define EMIT_TRIGGER
 
-char *pattern1 = "AAAAAAAAAAAAAAAA";
-char *pattern2 = "UUUU";
-char *string1 = "Hello World! I am software uart!\r\n";
+char *pattern1 = "UUUU";
+char *pattern2 = "AAAAAAAAAAAAAAAA";
+char *pattern3 = "aaaaaaaaaaaaaaaa";
+char *pattern4 = "abcdefghijklmnopqrstuvwzyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int main() {
-  char *teststring = pattern1;
+  char *teststring = pattern4;
 
-  setup_uart(0);  
+  setup_uart(0);
   sei();
 
 #ifdef EMIT_TRIGGER

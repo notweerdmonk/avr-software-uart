@@ -30,7 +30,7 @@ ifneq ($(strip $(DEBUG)),)
 COMPILE := avr-gcc -mmcu=$(DEVICE) -g -save-temps -Wall -Wfatal-errors -Os $(CFLAGS) -DF_CPU=$(CLOCK) $(INCLUDE)
 endif
 
-.c.o: 
+.c.o:
 	$(COMPILE) -c $< -o $@
 
 .S.o:
@@ -51,16 +51,18 @@ $(TEST_OBJECTS): $(TEST_DIR)
 
 test: $(TEST_OBJECTS)
 
+lib: $(LIB_OBJECTS)
+
 all: main.hex $(TEST_OBJECTS)
 	avr-size -C --mcu=$(DEVICE) main.elf
 
 main.elf: $(OBJECTS) $(LIB_OBJECTS)
-	# $(COMPILE) -o main.elf $(OBJECTS) $(LIB_OBJECTS)
+# $(COMPILE) -o main.elf $(OBJECTS) $(LIB_OBJECTS)
 	$(COMPILE) -o main.elf $(OBJECTS) -L ./src -luart
 
+# TODO: add EEPROM section
 main.hex: main.elf
 	avr-objcopy -j .text -j .data -O ihex main.elf main.hex
-	# TODO: add EEPROM section
 
 flash: all
 	$(AVRDUDE) -U flash:w:main.hex:i

@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -18,7 +17,7 @@ void sigalarm_handler(int sig) {
 #define STRINGIFY(s) #s
 #define SER_DEV STRINGIFY(/dev/ttyUSB0)
 
-char *teststring = "AAAAAAAAAAAAAAAA";
+char *teststring = "abcdefghijklmnopqrstuvwzyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 int main(int argc, char *argv[]) {
 
@@ -76,15 +75,22 @@ int main(int argc, char *argv[]) {
 #define BAUDRATE(baud) CAT(B, baud)
   cfsetispeed(&ser_settings, BAUDRATE(c_UART_BAUD_RATE));
   cfsetospeed(&ser_settings, BAUDRATE(c_UART_BAUD_RATE));
-  ser_settings.c_cflag &= ~PARENB;
-#if c_UART_N_STOP_BITS < 2
-  ser_settings.c_cflag &= ~CSTOPB;
-#endif
   ser_settings.c_cflag &= ~CSIZE;
 #if c_UART_CHAR_SIZE == 8
   ser_settings.c_cflag |= CS8;
 #elif c_UART_CHAR_SIZE == 7
   ser_settings.c_cflag |= CS7;
+#endif
+#if c_UART_N_STOP_BITS < 2
+  ser_settings.c_cflag &= ~CSTOPB;
+#endif
+#if c_UART_PARITY_TYPE > c_UART_PARITY_NONE
+  ser_settings.c_cflag |= PARENB;
+#if c_UART_PARITY_TYPE == c_UART_PARITY_ODD
+  ser_settings.c_cflag |= PARODD;
+#endif
+#else
+  ser_settings.c_cflag &= ~PARENB;
 #endif
   ser_settings.c_cflag &= ~CRTSCTS;
   ser_settings.c_cflag |= CREAD | CLOCAL;

@@ -1,4 +1,3 @@
-
 #ifndef DEFINES_H
 
 #include <config.h>
