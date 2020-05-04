@@ -115,7 +115,7 @@ $ ./tests/run_tests
 
 #### Screenshots
 
-This is a screenshot from sigrok PulseView capturing samples at 16Mhz for UART setup for 4800 8N1.
+This is a screenshot from sigrok PulseView capturing samples at 16Mhz with UART setup for 4800 8N1.
 
 ![logic analyser screenshot](./sigrok/uart_logic_4800_8N1.png)
 
