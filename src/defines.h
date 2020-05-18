@@ -76,4 +76,8 @@
 #define RX_INT_PIN PORT_RX_INT_PIN
 #endif
 
+#ifndef RX_INT_MSK
+#define RX_INT_MSK PORT_RX_INT_MSK
+#endif
+
 #endif /* DEFINES_H */

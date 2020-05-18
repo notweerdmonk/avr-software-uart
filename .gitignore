@@ -6,8 +6,10 @@
 *.swp
 tags
 commitlog
+.orig
 .gdb_history
 peda-session-*.txt
 *.tar.gz
 *.zip
 *.sr
+*.vcd

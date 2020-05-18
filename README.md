@@ -3,7 +3,9 @@
 #### Software UART for AVR Microcontrollers
 
 Character size: 5 to 8 bits
+
 Stop bits: 1 or 2 bits
+
 Parity: odd, even, mark, space
 
 This implementation utilises a 16-bit timer for baud generation. Output compare channel A is used for the TxD line and channel B for the RxD line. A pin change interrupt is used for capturing start condition on RxD line. Compare match interrupts shift bits in and out, from and to the IO pins.
@@ -35,7 +37,7 @@ Currently only two rudimentary signals, TxD and RxD are supported for a RS-232 c
 
 ```
 
-The file `config.h` provides configuration information. It should be modified as per requirements of the application before build. Baud rate can be selected at run time  and defaults to the value in this file when set as zero. This approach of configuration at build time reduces the code size but makes the entire process less flexible. Considering the use cases for an embedded platform where this stub will be linked into a final binary or hex unit which will be flashed on to the mcu ROM, its a wise trade-off.
+The file `config.h` provides configuration information. It should be modified as per requirements of the application before build. Baud rate can be selected at run time and defaults to the value in this file when set as zero. This approach of configuration at build time reduces the code size but makes the entire process less flexible. Considering the use cases for an embedded platform where this stub will be linked into a final binary or hex unit which will be flashed on to the mcu ROM, its a wise trade-off.
 
 ```c
 #define c_UART_PARITY_NONE  -1
