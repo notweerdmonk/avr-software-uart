@@ -115,6 +115,10 @@ $ cd avr-software-uart
 $ ./tests/run_tests
 ```
 
+#### Simulation
+
+A minor modification is needed in simavr for simulation. gcc places the .mmcu section before .data. The global strings are not read correctly in simavr because the offset for .mmcu section is not accounted for in flash memory. Please check my fork.
+
 #### Screenshots
 
 This is a screenshot from sigrok PulseView capturing samples at 16Mhz with UART setup for 4800 8N1.
