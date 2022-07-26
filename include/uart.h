@@ -14,7 +14,7 @@
 #include <avr/interrupt.h>
 
 /**
- * @brief Initializes sofware UART.
+ * @brief Initializes software UART.
  * @param baud_rate The baud rate.
  * @return void
  */
