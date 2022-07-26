@@ -57,7 +57,7 @@ The file `config.h` provides configuration information. It should be modified as
 #define c_UART_BUF_SIZE     16
 ```
 
-The file `port/port.h` contains portable macros for selecting timers and IO pins. Modify this file according to your application's design. The project supports only ATmega328p currently and more devices will be added.
+The file `port/port.h` contains portable macros for selecting timers and IO pins. Modify this file according to your application's design.
 
 Running make inside the top directory will produce a library archive inside the `src` directory, a hex file with test code from `main.c` and also build the test program.
 
