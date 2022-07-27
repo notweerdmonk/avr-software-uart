@@ -117,7 +117,7 @@ $ ./tests/run_tests
 
 #### Simulation
 
-A minor modification is needed in simavr for simulation. gcc places the .mmcu section before .data. The global strings are not read correctly in simavr because the offset for .mmcu section is not accounted for in flash memory. Please check my fork.
+TxD signal was simulated using [simavr](https://github.com/buserror/simavr/). The Value Change Dump files can be found in `simulation` directory.
 
 #### Screenshots
 
