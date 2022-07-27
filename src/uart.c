@@ -40,6 +40,8 @@ static struct shifter {
 #endif
 } tx, rx;
 
+unsigned int baud_timer_offset;
+
 ISR(port_tx_isr) {
   switch(tx.n) {
     case 0: {
@@ -107,10 +109,12 @@ ISR(port_rx_capture_isr) {
   /* sample rx pin */
   if (rx_pin_state == 0) {
     unsigned int tcnt = PORT_BAUD_TIMER_COUNT;
-    unsigned int res = ((unsigned int)(F_CPU * 1/BAUD_RATE) / 2);
 
-    PORT_BAUD_TIMER_TOP = (tcnt > res) ? tcnt - res : tcnt + res;
+    PORT_BAUD_TIMER_TOP = (tcnt > baud_timer_offset) ?
+      tcnt - baud_timer_offset : tcnt + baud_timer_offset;
+
     rx.n = FRAME_SIZE;
+
     /* sample rx pin again */
     if (rx_pin_state == 0) {
       port_clear_rx_capture_isr();
@@ -213,8 +217,9 @@ ISR(port_rx_isr) {
 }
 
 void setup_uart(unsigned long baud_rate) {
-  if (baud_rate == 0)
-    baud_rate = BAUD_RATE;
+  if (baud_rate == 0) baud_rate = DEFAULT_BAUD_RATE;
+  baud_timer_offset = ((unsigned int)(F_CPU * 1/baud_rate) / 2);
+
   /* tx state */
   tx_stream.in = tx_stream.out = tx_stream.size = 0;
   tx.bits = tx.n = 0;

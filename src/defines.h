@@ -3,8 +3,8 @@
 #include <config.h>
 #include <port.h>
 
-#ifndef BAUD_RATE
-#define BAUD_RATE c_UART_BAUD_RATE
+#ifndef DEFAULT_BAUD_RATE
+#define DEFAULT_BAUD_RATE c_UART_BAUD_RATE
 #endif
 
 #ifndef CHAR_SIZE
