@@ -308,11 +308,13 @@ char recv() {
 }
 
 char recv2() {
-  return (rx_available() && ({
-    char c = *(rx_stream.buffer + rx_stream.out);
-    WRAP(rx_stream.out, BUF_SIZE);
-    --rx_stream.size; c;
-  }));
+  return (rx_available() ?
+      ({
+        char c = *(rx_stream.buffer + rx_stream.out);
+        WRAP(rx_stream.out, BUF_SIZE);
+        --rx_stream.size; c;
+      }) : 0
+    );
 }
 
 void recv_str(const char *str, int n) {
