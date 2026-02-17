@@ -159,3 +159,7 @@ There are a few logic analyser and DSO capture files in `sigrok` directory.
 | 115200    | 8    | 2         | N      | pass   |
 | 115200    | 7    | 1         | N      | pass   |
 | 115200    | 7    | 2         | N      | pass   |
+
+#### Wiki
+
+Browse the [wiki](https://deepwiki.com/notweerdmonk/avr-software-uart).
